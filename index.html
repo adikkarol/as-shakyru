@@ -27,6 +27,7 @@
             background: #fff;
             min-height: 100vh;
             overflow: visible;
+            position: relative; /* ADD THIS */
         }
 
         /* Hero бөлімі */
@@ -36,7 +37,7 @@
             background: linear-gradient(180deg, #a8e0f5 0%, #c5ebf9 25%, #e0f4fc 50%, #f0faff 75%, #ffffff 100%);
             overflow: hidden;
             margin-top: 0;
-            padding-top: 0;
+            padding-top: 100px;
         }
 
         /* Main cloud behind person */
@@ -180,12 +181,12 @@
 
         .person-photo {
             position: absolute;
-            top: 5px;
+            top: -30px;
             left: 50%;
             transform: translateX(-50%);
-            z-index: 5;
-            width: 100%;
-            max-width: 550px;
+            z-index: 2;
+            width: 95%;
+            max-width: 480px;
         }
 
         .person-photo img {
@@ -514,6 +515,57 @@
             font-size: 1.1rem;
         }
 
+        .music-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.95);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100; /* Changed from 1000 */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            padding: 0;
+        }
+
+        .music-btn:hover {
+            transform: scale(1.08);
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.25);
+        }
+
+        .music-btn:active {
+            transform: scale(0.95);
+        }
+
+        .music-btn svg {
+            width: 36px;
+            height: 36px;
+            fill: #2a9cc7;
+        }
+
+        .music-btn .speaker-icon {
+            display: block;
+        }
+
+        .music-btn .mute-icon {
+            display: none;
+            position: absolute;
+        }
+
+        .music-btn.muted .speaker-icon {
+            display: none;
+        }
+
+        .music-btn.muted .mute-icon {
+            display: block;
+        }
+
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -524,6 +576,18 @@
         }
         
         @media (max-width: 480px) {
+            .music-btn {
+                width: 50px;
+                height: 50px;
+                top: 12px;
+                right: 12px;
+            }
+
+            .music-btn svg {
+                width: 24px;
+                height: 24px;
+            }
+
             .hero {
                 height: 650px;
                 overflow: hidden;
@@ -624,7 +688,21 @@
     </style>
 </head>
 <body>
+    <!-- Audio element -->
+    <audio id="backgroundMusic" style="display: none; visibility: hidden;">
+        <source src="https://dl.dropbox.com/scl/fi/9gvde0e3qbzxw08x7z78m/WhatsApp-2025-03-12-09.49.45_e33a580d.mp3?rlkey=kecmretxvp32gabo2zt00xcuh&st=ll9d0gk3&dl=1" type="audio/mpeg">
+    </audio>
+
     <div class="container">
+        <button class="music-btn" id="musicBtn" title="Toggle Music">
+            <svg class="speaker-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.26 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+            </svg>
+            <svg class="mute-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
+            </svg>
+        </button>
+        
         <!-- Hero бөлімі -->
         <section class="hero">
             <!-- Бұлт фоны -->
@@ -690,6 +768,13 @@
                 </div>
             </section>
 
+            <section class="details animate">
+                <div class="detail-card" style="grid-column: 1 / -1;">
+                    <p class="detail-label">Ас беруші</p>
+                    <p class="detail-value">Жұбайы, қызы, бауырлары</p>
+                </div>
+            </section>
+
             <section class="rsvp-section animate">
                 <h3 class="rsvp-title">Асқа келесіз бе?</h3>
                 <p class="rsvp-subtitle">Просим подтвердить участие</p>
@@ -737,9 +822,9 @@
                 </div>
             </section>
 
-            <section class="family">
-                <p>Ас беруші: жұбайы, қызы, бауырлары</p>
-            </section>
+            <!-- <section class="family">
+                
+            </section> -->
         </div>
 
         <footer class="footer">
@@ -821,6 +906,62 @@
             el.style.opacity = '0';
             observer.observe(el);
         });
+
+        // Music button functionality
+        const musicBtn = document.getElementById('musicBtn');
+        const backgroundMusic = document.getElementById('backgroundMusic');
+        let isMuted = true; // Start muted
+        let hasUserInteracted = false;
+
+        // Start music on FIRST user interaction anywhere on page
+        function startMusicOnInteraction() {
+            if (!hasUserInteracted) {
+                backgroundMusic.play().then(() => {
+                    isMuted = false;
+                    musicBtn.classList.remove('muted');
+                    hasUserInteracted = true;
+                }).catch(err => {
+                    console.log('Audio playback failed:', err);
+                });
+                // Remove listeners after first interaction
+                document.removeEventListener('click', startMusicOnInteraction);
+                document.removeEventListener('touchstart', startMusicOnInteraction);
+                document.removeEventListener('scroll', startMusicOnInteraction);
+            }
+        }
+
+        // Listen for any user interaction
+        document.addEventListener('click', startMusicOnInteraction);
+        document.addEventListener('touchstart', startMusicOnInteraction);
+        document.addEventListener('scroll', startMusicOnInteraction, { once: true });
+
+        // Music button toggle
+        musicBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            if (!hasUserInteracted) {
+                backgroundMusic.play().then(() => {
+                    isMuted = false;
+                    musicBtn.classList.remove('muted');
+                    hasUserInteracted = true;
+                }).catch(err => console.log('Audio playback failed:', err));
+                return;
+            }
+            
+            if (isMuted) {
+                backgroundMusic.play();
+                musicBtn.classList.remove('muted');
+                isMuted = false;
+            } else {
+                backgroundMusic.pause();
+                musicBtn.classList.add('muted');
+                isMuted = true;
+            }
+        });
+
+        // Set initial state to muted appearance
+        musicBtn.classList.add('muted');
     </script>
 </body>
 </html>
